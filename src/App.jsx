@@ -1,9 +1,35 @@
+import { useState } from "react";
+import axios from "axios";
+
 function App() {
+  const initialFormData = {
+    author: "",
+    title: "",
+    body: "",
+    public: false,
+  };
+
+  const apiUrl = "https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts";
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  const handleInputChange = (e) => {
+    e.target.type === "checkbox"
+      ? setFormData({ ...formData, [e.target.name]: e.target.checked })
+      : setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    axios.post(apiUrl, formData).then((res) => console.log(res.data));
+  };
+
   return (
     <>
       <h1>React Project</h1>
 
-      <form>
+      <form className="form" onSubmit={handleFormSubmit}>
         <div className="mb-3">
           <label htmlFor="input-Author" className="form-label">
             Author
@@ -11,9 +37,10 @@ function App() {
           <input
             type="text"
             className="form-control"
-            id="input-Author"
-            value={""}
-            onChange={() => {}}
+            id="author"
+            name="author"
+            value={formData.author}
+            onChange={handleInputChange}
           />
         </div>
         <div className="mb-3">
@@ -23,9 +50,10 @@ function App() {
           <input
             type="text"
             className="form-control"
-            id="inputTitle"
-            value={""}
-            onChange={() => {}}
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -33,9 +61,10 @@ function App() {
           <textarea
             className="textarea w-100"
             placeholder="Write text..."
-            id="textareaBio"
-            value={""}
-            onChange={() => {}}
+            id="body"
+            name="body"
+            value={formData.body}
+            onChange={handleInputChange}
           ></textarea>
         </div>
 
@@ -43,9 +72,10 @@ function App() {
           <input
             type="checkbox"
             className="form-check-input"
-            id="visibilityCheckbox"
-            checked={""}
-            onChange={() => {}}
+            id="public"
+            name="public"
+            checked={formData.public}
+            onChange={handleInputChange}
           />
           <label className="form-check-label" htmlFor="exampleCheck1">
             Public
