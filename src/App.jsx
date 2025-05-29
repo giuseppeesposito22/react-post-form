@@ -24,7 +24,16 @@ function App() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    axios.post(apiUrl, formData).then((res) => console.log(res.data));
+    axios
+      .post(apiUrl, formData)
+      .then((res) => {
+        alert("Dati inviati correttamente");
+
+        console.log(res.data);
+      })
+      .catch((err) => {
+        alert(`${err.message}`);
+      });
 
     setFormData(initialFormData);
   };
@@ -45,6 +54,7 @@ function App() {
             name="author"
             value={formData.author}
             onChange={handleInputChange}
+            required
           />
         </div>
         <div className="mb-3">
@@ -58,6 +68,7 @@ function App() {
             name="title"
             value={formData.title}
             onChange={handleInputChange}
+            required
           />
         </div>
 
@@ -69,6 +80,7 @@ function App() {
             name="body"
             value={formData.body}
             onChange={handleInputChange}
+            required
           ></textarea>
         </div>
 
@@ -81,7 +93,7 @@ function App() {
             checked={formData.public}
             onChange={handleInputChange}
           />
-          <label className="form-check-label" htmlFor="exampleCheck1">
+          <label className="form-check-label" htmlFor="public">
             Public
           </label>
         </div>
