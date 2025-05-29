@@ -14,15 +14,19 @@ function App() {
   const [formData, setFormData] = useState(initialFormData);
 
   const handleInputChange = (e) => {
-    e.target.type === "checkbox"
-      ? setFormData({ ...formData, [e.target.name]: e.target.checked })
-      : setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
+    });
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
     axios.post(apiUrl, formData).then((res) => console.log(res.data));
+
+    setFormData(initialFormData);
   };
 
   return (
